@@ -26,9 +26,9 @@ RUN apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-de
 
 # Compile and install bro
 RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER
+RUN ls -l /home/bro
 USER $VIRTUSER
 WORKDIR /home/$VIRTUSER
-RUN pwd
 RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT; tar -xzf $PROG-$VERS.$EXT
 WORKDIR /home/$VIRTUSER/$PROG-$VERS
 RUN ./configure --prefix=$PREFIX; make
