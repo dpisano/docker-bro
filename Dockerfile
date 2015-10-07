@@ -26,7 +26,7 @@ RUN apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-de
 
 # Compile and install bro
 RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER
-RUN mkdir /home/bro; chown -R bro:bro
+RUN mkdir /home/bro; chown -R bro:bro /home/bro
 RUN ls -l /home/bro
 USER $VIRTUSER
 WORKDIR /home/$VIRTUSER
