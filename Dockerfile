@@ -25,11 +25,11 @@ RUN apt-get update -qq
 RUN apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor --no-install-recommends
 
 # Compile and install bro
+RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER
 USER $VIRTUSER
 WORKDIR /home/$VIRTUSER
 RUN pwd
-RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT
-RUN tar -xzf $PROG-$VERS.$EXT
+RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT; tar -xzf $PROG-$VERS.$EXT
 WORKDIR /home/$VIRTUSER/$PROG-$VERS
 RUN ./configure --prefix=$PREFIX; make
 USER root
