@@ -27,12 +27,12 @@ RUN apt-get update -qq && apt-get install -yq build-essential cmake make gcc g++
 RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER && mkdir /home/bro; chown -R bro:bro /home/bro
 #USER $VIRTUSER
 WORKDIR /home/$VIRTUSER
-RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && tar -xzf $PROG-$VERS.$EXT && rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && cd /home/$VIRTUSER/$PROG-$VERS && ./configure --prefix=$PREFIX && make && make install && cd /home/$VIRTUSER && rm -rf /home/$VIRTUSER/$PROG-$VERS
+RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && tar -xzf $PROG-$VERS.$EXT && rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && cd /home/$VIRTUSER/$PROG-$VERS && ./configure --prefix=$PREFIX && make && make install && cd /home/$VIRTUSER && rm -rf /home/$VIRTUSER/$PROG-$VERS && chmod u+s $PREFIX/bin/$PROG ; chmod u+s $PREFIX/bin/broctl ; chmod u+s $PREFIX/bin/capstats
 #WORKDIR /home/$VIRTUSER/$PROG-$VERS
 #RUN ./configure --prefix=$PREFIX && make
 #USER root
 #RUN make install
-RUN chmod u+s $PREFIX/bin/$PROG ; chmod u+s $PREFIX/bin/broctl ; chmod u+s $PREFIX/bin/capstats
+#RUN chmod u+s $PREFIX/bin/$PROG ; chmod u+s $PREFIX/bin/broctl ; chmod u+s $PREFIX/bin/capstats
 
 # Supervisord
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
