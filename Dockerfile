@@ -43,5 +43,5 @@ RUN rm -rf /home/$VIRTUSER/$PROG-$VERS
 # Environment
 WORKDIR /home/$VIRTUSER
 USER root
-VOLUME  /opt/bro/logs /opt/bro/etc
+VOLUME  /opt/bro/logs /opt/bro/spool /opt/bro/etc
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
