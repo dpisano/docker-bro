@@ -21,28 +21,24 @@ ENV PREFIX /opt/bro
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
 # Install dependencies
-RUN apt-get update -qq
-RUN apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends
+RUN apt-get update -qq && apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && apt-get clean && apt-get purge && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Compile and install bro
-RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER
-RUN mkdir /home/bro; chown -R bro:bro /home/bro
+RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER && mkdir /home/bro; chown -R bro:bro /home/bro
 USER $VIRTUSER
 WORKDIR /home/$VIRTUSER
-RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT; tar -xzf $PROG-$VERS.$EXT
+RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && tar -xzf $PROG-$VERS.$EXT && rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT
 WORKDIR /home/$VIRTUSER/$PROG-$VERS
-RUN ./configure --prefix=$PREFIX; make
+RUN ./configure --prefix=$PREFIX && make
 USER root
 RUN make install
-RUN chmod u+s $PREFIX/bin/$PROG
-RUN chmod u+s $PREFIX/bin/broctl
-RUN chmod u+s $PREFIX/bin/capstats
+RUN chmod u+s $PREFIX/bin/$PROG ; chmod u+s $PREFIX/bin/broctl ; chmod u+s $PREFIX/bin/capstats
 
 # Supervisord
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Cleanup
-RUN rm -rf /home/$VIRTUSER/$PROG-$VERS; rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT
+RUN rm -rf /home/$VIRTUSER/$PROG-$VERS
 
 # Environment
 WORKDIR /home/$VIRTUSER
