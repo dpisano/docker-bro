@@ -20,14 +20,38 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
-# Install dependencies
-RUN apt-get update -qq && apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && apt-get clean && apt-get purge && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN groupadd -r $VIRTUSER && \
+    useradd -r -g $VIRTUSER $VIRTUSER && \
+    mkdir /home/bro; chown -R bro:bro /home/bro
 
-# Compile and install bro
-RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER && mkdir /home/bro; chown -R bro:bro /home/bro
-#USER $VIRTUSER
+# Install dependencies
 WORKDIR /home/$VIRTUSER
-RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && tar -xzf $PROG-$VERS.$EXT && rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && cd /home/$VIRTUSER/$PROG-$VERS && ./configure --prefix=$PREFIX && make && make install && cd /home/$VIRTUSER && rm -rf /home/$VIRTUSER/$PROG-$VERS && chmod u+s $PREFIX/bin/$PROG ; chmod u+s $PREFIX/bin/broctl ; chmod u+s $PREFIX/bin/capstats
+RUN apt-get update -qq && \
+    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
+    wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
+    tar -xzf $PROG-$VERS.$EXT && \
+    rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && \
+    cd /home/$VIRTUSER/$PROG-$VERS && \
+    ./configure --prefix=$PREFIX && \
+    make && \
+    make install && \
+    cd /home/$VIRTUSER && \
+    rm -rf /home/$VIRTUSER/$PROG-$VERS && \
+    chmod u+s $PREFIX/bin/$PROG ; \
+    chmod u+s $PREFIX/bin/broctl ; \
+    chmod u+s $PREFIX/bin/capstats ;\
+    apt-get purge build-essential cmake make gcc g++ flex bison libpcap-dev zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 && \
+    apt-get autoremove && \
+    apt-get clean && \
+    apt-get purge && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+#cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0
+# Compile and install bro
+#RUN groupadd -r $VIRTUSER && useradd -r -g $VIRTUSER $VIRTUSER && mkdir /home/bro; chown -R bro:bro /home/bro
+#USER $VIRTUSER
+#WORKDIR /home/$VIRTUSER
+#RUN wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && tar -xzf $PROG-$VERS.$EXT && rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && cd /home/$VIRTUSER/$PROG-$VERS && ./configure --prefix=$PREFIX && make && make install && cd /home/$VIRTUSER && rm -rf /home/$VIRTUSER/$PROG-$VERS && chmod u+s $PREFIX/bin/$PROG ; chmod u+s $PREFIX/bin/broctl ; chmod u+s $PREFIX/bin/capstats
 #WORKDIR /home/$VIRTUSER/$PROG-$VERS
 #RUN ./configure --prefix=$PREFIX && make
 #USER root
