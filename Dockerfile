@@ -42,9 +42,10 @@ RUN chmod u+s $PREFIX/bin/capstats
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Cleanup
-RUN rm -rf /home/$VIRTUSER/$PROG-$VERS
+RUN rm -rf /home/$VIRTUSER/$PROG-$VERS; rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT
 
 # Environment
 WORKDIR /home/$VIRTUSER
 USER root
+VOLUME  /opt/bro/logs /opt/bro/etc
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
