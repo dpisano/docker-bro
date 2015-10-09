@@ -41,7 +41,7 @@ RUN apt-get update -qq && \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ;\
     apt-get purge build-essential cmake make gcc g++ flex bison libpcap-dev zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 && \
-    apt-get autoremove && \
+    apt-get autoremove -y && \
     apt-get clean && \
     apt-get purge && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
