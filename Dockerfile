@@ -26,17 +26,17 @@ RUN groupadd -r $VIRTUSER && \
 
 WORKDIR /home/$VIRTUSER
 
-RUN apt-get update -qq && \
-    apt-get install -yq wget && \
-    wget -qO - http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key | apt-key add - && \
-    echo 'deb http://download.opensuse.org/repositories/network:/bro/Debian_8.0/ /' >> /etc/apt/sources.list.d/bro.list && \
-    apt-get update -qq && \
-    apt-get instal bro && \
-    apt-get purge -y wget && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    apt-get purge && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update -qq
+RUN apt-get install -yq wget
+RUN wget -qO - http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key | apt-key add -
+RUN echo 'deb http://download.opensuse.org/repositories/network:/bro/Debian_8.0/ /' >> /etc/apt/sources.list.d/bro.list
+RUN apt-get update -qq
+RUN apt-get instal bro
+RUN apt-get purge -y wget
+RUN apt-get autoremove -y
+RUN apt-get clean
+RUN apt-get purge
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
