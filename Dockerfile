@@ -31,7 +31,7 @@ RUN apt-get install -yq wget
 RUN wget -qO - http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key | apt-key add -
 RUN echo 'deb http://download.opensuse.org/repositories/network:/bro/Debian_8.0/ /' >> /etc/apt/sources.list.d/bro.list
 RUN apt-get update -qq
-RUN apt-get instal bro
+RUN apt-get install bro
 RUN apt-get purge -y wget
 RUN apt-get autoremove -y
 RUN apt-get clean
