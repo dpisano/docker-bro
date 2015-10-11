@@ -20,6 +20,12 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
+RUN groupadd -r $VIRTUSER && \
+    useradd -r -g $VIRTUSER $VIRTUSER && \
+    mkdir /home/bro; chown -R bro:bro /home/bro
+
+WORKDIR /home/$VIRTUSER
+
 RUN apt-get update -qq && \
     apt-get install -yq wget && \
     wget http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key && \
