@@ -20,11 +20,14 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
-RUN wget http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key && \
+RUN apt-get update -qq && \
+    apt-get install -yq wget && \
+    wget http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key && \
     apt-key add — < Release.key && \
     echo 'deb http://download.opensuse.org/repositories/network:/bro/Debian_8.0/ /' >> /etc/apt/sources.list.d/bro.list && \
     apt-get update -qq && \
-    apt-get instal bro
+    apt-get instal bro && \
+    apt-get purge -y wget && \
     apt-get autoremove -y && \
     apt-get clean && \
     apt-get purge && \
