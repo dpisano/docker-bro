@@ -28,8 +28,7 @@ WORKDIR /home/$VIRTUSER
 
 RUN apt-get update -qq && \
     apt-get install -yq wget && \
-    wget http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key && \
-    apt-key add Release.key && \
+    wget -qO - http://download.opensuse.org/repositories/network:bro/Debian_8.0/Release.key | sudo apt-key add - && \
     echo 'deb http://download.opensuse.org/repositories/network:/bro/Debian_8.0/ /' >> /etc/apt/sources.list.d/bro.list && \
     apt-get update -qq && \
     apt-get instal bro && \
