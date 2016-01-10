@@ -9,4 +9,4 @@ I started with what he had and fix some bugs that I ran into. After that I optim
 
 To run this you should use the following command line options.
 
--d --net=host -v /opt/bro/logs:/opt/bro/logs -v /opt/bro/spool:/opt/bro/spool`
+'-d --net=host -v /opt/bro/logs:/opt/bro/logs -v /opt/bro/spool:/opt/bro/spool`
