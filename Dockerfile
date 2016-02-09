@@ -25,6 +25,7 @@ RUN groupadd -r $VIRTUSER && \
     mkdir /home/bro; chown -R bro:bro /home/bro
 
 WORKDIR /home/$VIRTUSER
+RUN apk add --update cmake make gcc g++ bison flex libpcap openssl zlib perl wget
 #RUN apt-get update -qq && \
 #    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
 #    wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
