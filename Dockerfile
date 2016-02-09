@@ -20,7 +20,7 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
-RUN apk add --update cmake make gcc g++ bison flex libpcap openssl zlib perl wget && \
+RUN apk add --update cmake make gcc g++ bison flex libpcap-dev openssl-dev zlib-dev python-dev perl wget && \
 #RUN apt-get update -qq && \
 #    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
     wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
@@ -34,7 +34,8 @@ RUN apk add --update cmake make gcc g++ bison flex libpcap openssl zlib perl wge
     rm -rf $PROG-$VERS && \
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
-    chmod u+s $PREFIX/bin/capstats ;\
+    chmod u+s $PREFIX/bin/capstats ; \
+    apk del cmake make gcc g++ bison flex zlib-dev python-dev wget
     rm -rf /var/cache/apk/*
 #    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 && \
 #    apt-get autoremove -y && \
