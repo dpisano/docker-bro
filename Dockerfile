@@ -1,7 +1,7 @@
 # Bro Sandbox - Bro 2.4.1
 #
 # VERSION               1.0
-FROM      debian
+FROM      alpine
 MAINTAINER David Pisano
 
 # Metadata
@@ -25,25 +25,25 @@ RUN groupadd -r $VIRTUSER && \
     mkdir /home/bro; chown -R bro:bro /home/bro
 
 WORKDIR /home/$VIRTUSER
-RUN apt-get update -qq && \
-    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
-    wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
-    tar -xzf $PROG-$VERS.$EXT && \
-    rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && \
-    cd /home/$VIRTUSER/$PROG-$VERS && \
-    ./configure --prefix=$PREFIX && \
-    make && \
-    make install && \
-    cd /home/$VIRTUSER && \
-    rm -rf /home/$VIRTUSER/$PROG-$VERS && \
-    chmod u+s $PREFIX/bin/$PROG ; \
-    chmod u+s $PREFIX/bin/broctl ; \
-    chmod u+s $PREFIX/bin/capstats ;\
-    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    apt-get purge && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get update -qq && \
+#    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
+#    wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
+#    tar -xzf $PROG-$VERS.$EXT && \
+#    rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && \
+#    cd /home/$VIRTUSER/$PROG-$VERS && \
+#    ./configure --prefix=$PREFIX && \
+#    make && \
+#    make install && \
+#    cd /home/$VIRTUSER && \
+#    rm -rf /home/$VIRTUSER/$PROG-$VERS && \
+#    chmod u+s $PREFIX/bin/$PROG ; \
+#    chmod u+s $PREFIX/bin/broctl ; \
+#    chmod u+s $PREFIX/bin/capstats ;\
+#    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 && \
+#    apt-get autoremove -y && \
+#    apt-get clean && \
+#    apt-get purge && \
+#    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
