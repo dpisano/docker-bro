@@ -20,7 +20,7 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
-RUN apk add --update cmake make gcc g++ bison flex libpcap-dev openssl-dev zlib-dev python-dev perl wget file supervisor swig && \
+RUN apk add --update cmake make gcc g++ bison flex libpcap-dev openssl-dev zlib-dev python-dev perl wget file supervisor swig bash && \
 #RUN apt-get update -qq && \
 #    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
     wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
