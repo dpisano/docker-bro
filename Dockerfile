@@ -26,8 +26,15 @@ RUN groupadd -r $VIRTUSER && \
 
 WORKDIR /home/$VIRTUSER
 RUN apt-get update -qq && \
-    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget git --no-install-recommends && \
-    git clone https://github.com/bro/bro.git && \
+    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig3.0 ca-certificates supervisor wget git --no-install-recommends && \
+    git clone -b master --single-branch https://github.com/actor-framework/actor-framework.git && \
+    git clone -b master --single-branch --recursive https://github.com/bro/bro.git && \
+    cd /home/$VIRTUSER/actor-framework && \
+    ./configure && \
+    make && \
+    make install && \
+    cd /home/$VIRTUSER && \
+    rm -rf actor-framework && \
     cd /home/$VIRTUSER/$PROG && \
     ./configure --prefix=$PREFIX && \
     make && \
@@ -37,7 +44,9 @@ RUN apt-get update -qq && \
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ;\
-    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 git && \
+    rm -rf /usr/local/include/caf/
+    rm -rf /usr/local/share/caf/
+    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig3.0 git && \
     apt-get autoremove -y && \
     apt-get clean && \
     apt-get purge && \
