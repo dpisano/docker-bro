@@ -1,7 +1,7 @@
 # Bro Sandbox - Bro 2.4.1
 #
 # VERSION               1.0
-FROM      debian
+FROM      ubuntu:14.04.4
 MAINTAINER David Pisano
 
 # Metadata
