@@ -27,7 +27,7 @@ RUN groupadd -r $VIRTUSER && \
 WORKDIR /home/$VIRTUSER
 RUN apt-get update -qq && \
     apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
-    wget --no-check-certificate https://www.bro.org/downloads/release/$PROG-$VERS.$EXT && \
+    wget --no-check-certificate https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && \
     cd /home/$VIRTUSER/$PROG-$VERS && \
