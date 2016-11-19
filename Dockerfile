@@ -1,4 +1,4 @@
-# Bro Sandbox - Bro 2.4.1
+# Bro Sandbox - Bro 2.5
 #
 # VERSION               1.0
 FROM      debian
@@ -14,7 +14,7 @@ ENV PROG bro
 # Specify source extension
 ENV EXT tar.gz
 # Specify Bro version to download and install (e.g. bro-2.3.1, bro-2.4)
-ENV VERS 2.4.1
+ENV VERS 2.5
 # Install directory
 ENV PREFIX /opt/bro
 # Path should include prefix
