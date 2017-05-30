@@ -1,8 +1,6 @@
 # Bro Sandbox - Bro 2.5
 #
-# VERSION               1.0
-FROM      alpine
-MAINTAINER David Pisano
+FROM alpine:3.5
 
 # Metadata
 LABEL program=bro
@@ -20,7 +18,25 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
-RUN apk add --update cmake make gcc g++ bison flex libpcap-dev openssl-dev zlib-dev python-dev perl wget file supervisor swig bash && \
+RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini
+RUN apk add --no-cache -t .build-deps \
+                          linux-headers \
+                          openssl-dev \
+                          libpcap-dev \
+                          python-dev \
+                          geoip-dev \
+                          zlib-dev \
+                          binutils \
+                          fts-dev \
+                          cmake \
+                          clang \
+                          bison \
+                          perl \
+                          make \
+                          flex \
+                          git \
+                          g++ \
+                          fts && \
     wget --no-check-certificate https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
@@ -33,8 +49,9 @@ RUN apk add --update cmake make gcc g++ bison flex libpcap-dev openssl-dev zlib-
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ; \
-    apk del cmake make gcc g++ bison flex zlib-dev python-dev wget file swig
-    rm -rf /var/cache/apk/*
+    strip -s $PREFIX && \
+    rm -rf /var/cache/apk/* && \
+    apk del --purge .build-deps
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
