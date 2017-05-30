@@ -42,7 +42,7 @@ RUN apk add --no-cache -t .build-deps \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
     cd $PROG-$VERS && \
-    ./configure --prefix=$PREFIX && \
+    CC=clang ./configure --prefix=$PREFIX && \
     make && \
     make install && \
     cd .. \
