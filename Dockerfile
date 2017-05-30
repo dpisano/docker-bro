@@ -18,6 +18,8 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
+COPY patches /tmp
+
 RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini bash
 RUN apk add --no-cache -t .build-deps \
                           linux-headers \
@@ -42,6 +44,11 @@ RUN apk add --no-cache -t .build-deps \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
     cd $PROG-$VERS && \
+    patch -p1 < /tmp/bro-musl.patch && \
+    cp /tmp/FindFTS.cmake cmake && \
+    cd aux/binpac && \
+    patch -p1 < /tmp/binpac-musl.patch && \
+    cd ../../ && \
     CC=clang ./configure --prefix=$PREFIX && \
     make && \
     make install && \
@@ -52,6 +59,7 @@ RUN apk add --no-cache -t .build-deps \
     chmod u+s $PREFIX/bin/capstats ; \
     strip -s $PREFIX && \
     rm -rf /var/cache/apk/* && \
+    rm -rf /tmp/* && \
     apk del --purge .build-deps
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
