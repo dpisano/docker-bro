@@ -20,7 +20,7 @@ ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bi
 
 COPY patches /tmp
 
-RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini bash
+RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini bash supervisor
 RUN apk add --no-cache -t .build-deps \
                           linux-headers \
                           openssl-dev \
