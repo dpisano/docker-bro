@@ -37,7 +37,7 @@ RUN apk add --no-cache -t .build-deps \
                           git \
                           g++ \
                           fts && \
-    wget --no-check-certificate https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
+    wget https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
     cd $PROG-$VERS && \
