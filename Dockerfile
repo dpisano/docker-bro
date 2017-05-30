@@ -57,7 +57,7 @@ RUN apk add --no-cache -t .build-deps \
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ; \
-    strip -s $PREFIX && \
+    strip -s $PREFIX/bin/bro && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \
     apk del --purge .build-deps
