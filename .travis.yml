@@ -1,0 +1,10 @@
+
+services:
+  - docker
+
+install:
+  - docker build -t bro .
+  - docker run -d --net=host -v /opt/bro/logs:/opt/bro/logs -v /opt/bro/spool:/opt/bro/spool --name bro bro
+
+script:
+  - docker ps | grep -q bro
