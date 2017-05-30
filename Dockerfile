@@ -18,7 +18,7 @@ ENV PREFIX /opt/bro
 # Path should include prefix
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin
 
-RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini
+RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini bash
 RUN apk add --no-cache -t .build-deps \
                           linux-headers \
                           openssl-dev \
