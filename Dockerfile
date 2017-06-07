@@ -14,7 +14,7 @@ ENV PROG bro
 # Specify source extension
 ENV EXT tar.gz
 # Specify Bro version to download and install (e.g. bro-2.3.1, bro-2.4)
-ENV VERS 2.5
+ENV VERS 2.5.1-beta
 # Install directory
 ENV PREFIX /opt/bro
 # Path should include prefix
@@ -27,7 +27,7 @@ RUN groupadd -r $VIRTUSER && \
 WORKDIR /home/$VIRTUSER
 RUN apt-get update -qq && \
     apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
-    wget --no-check-certificate https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
+    wget --no-check-certificate https://www.bro.org/downloads/beta/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && \
     cd /home/$VIRTUSER/$PROG-$VERS && \
