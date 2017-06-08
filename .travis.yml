@@ -8,3 +8,7 @@ install:
 
 script:
   - docker ps | grep -q bro
+
+after_success:
+  - docker images bro
+  - docker history bro
