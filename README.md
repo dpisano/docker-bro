@@ -1,7 +1,4 @@
 # docker-bro
-
-## This does not work right now. Right now I'm not sure if I can even get it to work.
-
 Docker version of Bro to run with live network traffic.
 
 This Dockerfile was inspired by Jon Schipp blog about running Bro in docker on live network traffic.
