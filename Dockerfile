@@ -40,10 +40,11 @@ RUN apk add --no-cache -t .build-deps \
                           g++ \
                           fts \
                           swig && \
-    wget https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
-    tar -xzf $PROG-$VERS.$EXT && \
-    rm -rf ./$PROG-$VERS.$EXT && \
-    cd $PROG-$VERS && \
+    cd /tmp && \
+    git clone --recursive --branch v$VERS git://git.bro.org/bro && \
+    # tar -xzf $PROG-$VERS.$EXT && \
+    # rm -rf ./$PROG-$VERS.$EXT && \
+    cd $PROG && \
     patch -p1 < /tmp/bro-musl.patch && \
     cp /tmp/FindFTS.cmake cmake && \
     cd aux/binpac && \
@@ -53,7 +54,7 @@ RUN apk add --no-cache -t .build-deps \
     make && \
     make install && \
     cd .. \
-    rm -rf $PROG-$VERS && \
+    rm -rf $PROG && \
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ; \
