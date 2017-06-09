@@ -40,6 +40,7 @@ RUN apk add --no-cache -t .build-deps \
                           g++ \
                           fts \
                           swig && \
+    cd /tmp && \
     wget https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
