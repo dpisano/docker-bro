@@ -1,4 +1,4 @@
-# Bro Sandbox - Bro 2.5
+# Bro Sandbox - Bro 2.5.1
 #
 FROM alpine:3.5
 
@@ -12,7 +12,7 @@ ENV PROG bro
 # Specify source extension
 ENV EXT tar.gz
 # Specify Bro version to download and install (e.g. bro-2.3.1, bro-2.4)
-ENV VERS 2.5.1-beta
+ENV VERS 2.5.1
 # Install directory
 ENV PREFIX /opt/bro
 # Path should include prefix
@@ -41,7 +41,7 @@ RUN apk add --no-cache -t .build-deps \
                           fts \
                           swig && \
     cd /tmp && \
-    wget https://www.bro.org/downloads/beta/$PROG-$VERS.$EXT && \
+    wget https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
     cd $PROG-$VERS && \
