@@ -1,7 +1,7 @@
 # Bro Sandbox - Bro 2.5.1
 #
 # VERSION               1.0
-FROM      debian
+FROM debian:jessie
 
 # Metadata
 LABEL program=bro
@@ -25,7 +25,7 @@ RUN groupadd -r $VIRTUSER && \
 
 WORKDIR /home/$VIRTUSER
 RUN apt-get update -qq && \
-    apt-get install -yq build-essential cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig ca-certificates supervisor wget --no-install-recommends && \
+    apt-get install -yq build-essential tini cmake make gcc g++ flex bison libpcap-dev libgeoip-dev libssl-dev python-dev zlib1g-dev libmagic-dev swig2.0 ca-certificates supervisor wget --no-install-recommends && \
     wget --no-check-certificate https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf /home/$VIRTUSER/$PROG-$VERS.$EXT && \
@@ -38,7 +38,7 @@ RUN apt-get update -qq && \
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ;\
-    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig && \
+    apt-get purge -y build-essential cmake make gcc g++ flex bison zlib1g-dev python-dev zlib1g-dev libmagic-dev swig2.0 && \
     apt-get autoremove -y && \
     apt-get clean && \
     apt-get purge && \
