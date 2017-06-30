@@ -66,4 +66,4 @@ RUN apk add --no-cache -t .build-deps \
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME  /opt/bro/logs /opt/bro/spool /opt/bro/etc
-CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
