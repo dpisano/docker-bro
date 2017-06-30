@@ -11,3 +11,4 @@ before_script:
 
 script:
   - docker ps | grep -q bro
+  - ps -ea | grep -q bro
