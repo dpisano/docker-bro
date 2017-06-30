@@ -20,7 +20,7 @@ ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bi
 
 COPY patches /tmp
 
-RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini bash python
+RUN apk add --no-cache zlib openssl libstdc++ libpcap geoip libgcc tini bash tini
 RUN apk add --no-cache -t .build-deps \
                           linux-headers \
                           openssl-dev \
@@ -62,6 +62,8 @@ RUN apk add --no-cache -t .build-deps \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \
     apk del --purge .build-deps
+
+#ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME  /opt/bro/logs /opt/bro/spool /opt/bro/etc
 ENTRYPOINT ["/sbin/tini", "--"]
