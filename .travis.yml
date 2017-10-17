@@ -6,5 +6,9 @@ install:
   - docker build -t bro .
   - docker run -d --net=host -v /opt/bro/logs:/opt/bro/logs -v /opt/bro/spool:/opt/bro/spool --name bro bro
 
+before_script:
+  - sleep 5
+
 script:
   - docker ps | grep -q bro
+  - ps -ea | grep -q bro
