@@ -12,7 +12,7 @@ ENV PROG bro
 # Specify source extension
 ENV EXT tar.gz
 # Specify Bro version to download and install (e.g. bro-2.3.1, bro-2.4)
-ENV VERS 2.5.3
+ENV VERS 2.5.4
 # Install directory
 ENV PREFIX /opt/bro
 # Path should include prefix
