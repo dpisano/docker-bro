@@ -2,6 +2,13 @@
 services:
   - docker
 
+env:
+  global:
+    - secure: "G5AlVVN/2EQikhbEvEPDEbvDqHH2fBnTVT3xz7FQI4qfRYonTnuxaoda1wGpZcnNShPuOWF7h4CUlQFvNcZNSHDVuuaeyqtytLLe0ZV7LBdf1kSkQenVDnc4nXvtE98OaH9mzkxOLDcF8uetpP0YhWOBl6cMPlWasM3U4xqqEZ7Q3gHBl1JV2SMxjN6+ygVVmQ6cSZyoYRJwku9/A/LOd9Aed+u9mT4MIPS2m4YAQnaw6aY0dEZmOjJ+LRbrTder1GOubZ8Saandh01Wk3SCOo1KR3703Fqch66WQNqRRffWi/LxJGcu3ywbQFUS2xa4/7v18Dzn6UF8iDChbW6O2GplwvBNbzc8uPNAbvG6KOgprMyJL7zFJ8c4b/DYRoOcPXFJzc1KCTjcdAHElkTaOzCiHsz/ZmZSXOzIHo6u0gaIqKNoaGQ+hHTr6w9bNvp6YAPYDfU/6cGpIPihKbxe58yBdLEvHu6ie/5ycO4GAlJGiBoA+/+CIWYR7TCg8FL8tTDMpZBxKZNNmtkRMTUoC5lWIamH8vNHVZz71FfevHIWX5EZRSB2ykZHlJyhVx4F3HXNKx7avHmf2qpKtoxomHhnWQvXW7n3s2J4m4WD7kATW93J2E5W+q20V1XogbIi49IjYTOAOy/T+53fSq5dVrIZ+qN63ccn7YOsYMny8QE=" # DOCKER_EMAIL
+    - secure: "EGYIrDWxYR7Z/aiGd8C4iZps3PwyjAlG6OwevYYSZNbcWC+IM+BRTtIBZOoayBG9inKEqQ4aN5TNqsaX9TGZypaat3WTN1CP/9Gc2yRrEloXY7ZTx6MlL0+cjaFe1TgQc6IDKCnrP/5u+CH4VOrLedyJ/1lphuscowf1c7f8plUFs5LLNNhX4wpFr17WPr7oT6NS/34bRTIUaF4JIvsqmYe67Mr7cbCgWHA4idgqDaWZN7168E531W4FV8+fxuc10WnI+vFK+1GzdCxB5mlLK1FEsjH2K0mASDi9LUKFVJQMu8EG0FkBzYj1QuMBfOLiWRFAg2QqYD3m7hCUSYr4Y826eG43DLdZ9UPm2o+ZOhpKgTwzo4vS4F/4H6knX74o2igZQZTFjDf08EQ6g4zrZwM64G6sSAaCJoPELdVDldRLSosT63A5PxV6QjkERbA12aeTNCayFnLD1dUonaFs0tHGwcV5X5rWENCo2YKfQP2hDn1TpSlK5+9xnSAnESNKqic70mfptY55ZtU7DLqGhdfaYdHWNfEzok3HlqmSLlAlgRt7HhuIgx1NSUsnetVexWqoYEcn8Lfx2xQLWUBW1CAqMCzYv/t3kDxZGlwaneFukG0+8ip6ZeHgk51vYkem38iNafAYashHrJYVSvF+fivKVNg6jbuFya+ZssG1eaU=" # DOCKER_USER
+    - secure: "riSErEtjpWPVPoP3J234wnU0MHdhCwEmUMK/anRsmzoUg/A/jyzRGjyrx88slwXtX7e2FnKu1e3s7dKHppcD/52a65JYG+PfgiYhp76WPKDXv1KvCUr1bDIaxOYzfuxCcj74JIXF1Qp2+Mg1HyP4iPtyvODt/UUeVixLkGkXwGpf+WQcL2FaRqUJc/45noUO00MI/kjGxF1gYtMiIOa30VmTW4Fbi8LNwProAL4ge4oQYlbFSCPAa5PWI2TGSVBRN8HLt0rY9NU0gKJ7s6rs7PmW692L1jiH/u86cWgK1gGY0dIpvEf0HEBumAXLQpBJT8+Y2/V6JbwU0HttXbZOHpmao9F7Gg36jXLNILa95Ye47hQUC43XasB2id8LUyLPGdVwUmXbH6KrznmVpRkz9GDYL8OOcBRLLIwuAys+/ZqpmUOTLCFHfYoaR6p/DJUJeNHoAAXDS7mPwx/w9Tnp+VugOqQi4xmdEwDecKTowfe40FjjNvuR+7jRWkVwgzNAMhIing+QrF16WV9NgNfTaNaVnRdS3n8oEq8nyq81M3ZX9YoXDwXr2os8hzeVO5mY4ZshQbizgJszsaqwgzXWaKojMmPBG26+yzooDulCIFQQxlzYCHo4UHKOLShivkCnt/ndXVGgkTgnqz3eStEq40oSrPsvg5KWY1kZ5+UZIDU=" # DOCKER_PASS
+    - COMMIT=${TRAVIS_COMMIT::8}
+
 install:
   - docker build -t bro .
   - docker run -d --net=host -v /opt/bro/logs:/opt/bro/logs -v /opt/bro/spool:/opt/bro/spool --name bro bro
@@ -12,3 +19,12 @@ before_script:
 script:
   - docker ps | grep -q bro
   - ps -ea | grep -q bro
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=dpisano/docker-bro
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
