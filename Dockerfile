@@ -45,11 +45,11 @@ RUN apk add --no-cache -t .build-deps \
     tar -xzf $PROG-$VERS.$EXT && \
     rm -rf ./$PROG-$VERS.$EXT && \
     cd $PROG-$VERS && \
-    patch -p1 < /tmp/bro-musl.patch && \
-    cp /tmp/FindFTS.cmake cmake && \
-    cd aux/binpac && \
-    patch -p1 < /tmp/binpac-musl.patch && \
-    cd ../../ && \
+    #patch -p1 < /tmp/bro-musl.patch && \
+    #cp /tmp/FindFTS.cmake cmake && \
+    #cd aux/binpac && \
+    #patch -p1 < /tmp/binpac-musl.patch && \
+    #cd ../../ && \
     CC=clang ./configure --prefix=$PREFIX && \
     make && \
     make install && \
