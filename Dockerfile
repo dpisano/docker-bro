@@ -8,7 +8,7 @@ LABEL program=bro
 # Specify container username e.g. training, demo
 ENV VIRTUSER bro
 # Specify program
-ENV PROG bro
+ENV PROG zeek
 # Specify source extension
 ENV EXT tar.gz
 # Specify Bro version to download and install (e.g. bro-2.3.1, bro-2.4)
@@ -41,10 +41,11 @@ RUN apk add --no-cache -t .build-deps \
                           fts \
                           swig && \
     cd /tmp && \
-    wget https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
-    tar -xzf $PROG-$VERS.$EXT && \
-    rm -rf ./$PROG-$VERS.$EXT && \
-    cd $PROG-$VERS && \
+    git clone --recursive https://github.com/zeek/zeek.git && \
+    #wget https://www.bro.org/downloads/$PROG-$VERS.$EXT && \
+    #tar -xzf $PROG-$VERS.$EXT && \
+    #rm -rf ./$PROG-$VERS.$EXT && \
+    cd $PROG && \
     #patch -p1 < /tmp/bro-musl.patch && \
     #cp /tmp/FindFTS.cmake cmake && \
     #cd aux/binpac && \
@@ -54,7 +55,7 @@ RUN apk add --no-cache -t .build-deps \
     make && \
     make install && \
     cd .. \
-    rm -rf $PROG-$VERS && \
+    rm -rf $PROG && \
     chmod u+s $PREFIX/bin/$PROG ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ; \
