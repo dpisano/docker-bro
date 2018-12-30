@@ -52,11 +52,11 @@ RUN apk add --no-cache -t .build-deps \
     #patch -p1 < /tmp/binpac-musl.patch && \
     #cd ../../ && \
     CC=clang ./configure --prefix=$PREFIX && \
-    make && \
+    make -j2 && \
     make install && \
     cd .. \
     rm -rf $PROG && \
-    chmod u+s $PREFIX/bin/$PROG ; \
+    chmod u+s $PREFIX/bin/bro ; \
     chmod u+s $PREFIX/bin/broctl ; \
     chmod u+s $PREFIX/bin/capstats ; \
     strip -s $PREFIX/bin/bro && \
